@@ -1,0 +1,17 @@
+name: trigger jenkins webhook on Push to Master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: call jenkins webhook
+      env:
+        URL: ${{JENKINS_WEBHOOK_URL}}
+        USERNAME: ${{JENKINS_USERNAME}}
+        PASSWORD: ${{JENKINS_API_KEY}}
+        TOKEN: ${{JENKINS_WEBHOOK_TOKEN}}
+      run: curl -X POST -L --user $USERNAME:$PASSWORD JENKINS_URL/job/JOB_NAME/build?token=$TOKEN
